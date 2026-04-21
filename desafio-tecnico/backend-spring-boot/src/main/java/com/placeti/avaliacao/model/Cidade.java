@@ -1,13 +1,18 @@
 package com.placeti.avaliacao.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //-------------------------------------------------
 /** Entidade que guarda os dados de uma cidade */
@@ -31,4 +36,7 @@ public class Cidade {
     
     @Column(name = "capital", nullable = false)
     private Boolean capital;
+
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comercio> comercios = new ArrayList<>();
 }
