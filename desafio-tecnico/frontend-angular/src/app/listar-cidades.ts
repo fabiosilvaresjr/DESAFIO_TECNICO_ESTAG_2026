@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ImportsModule} from './imports';
 import {Cidade} from '@domain/cidade';
+import {CityDTO} from '@domain/city-dto';
 import {ProjetoService} from '@service/projeto-service';
 import {CadastrarCidade} from './cadastrar-cidade';
 import {MessageService} from 'primeng/api';
@@ -47,7 +48,14 @@ export class ListarCidades {
     /** Método chamado para recuperar cidades para a tabela */
     //-------------------------------------------------------------------------------------
     private pesquisarCidades(): void {
-        
+        this.service.pesquisarCidades().subscribe((retorno: CityDTO[]) => {
+            this.listaCidades = retorno.map((cidadeDto) => ({
+                id: cidadeDto.id,
+                nome: cidadeDto.nome,
+                uf: cidadeDto.uf,
+                capital: cidadeDto.capital
+            }));
+        });
     }
 
     //-------------------------------------------------------------------------------------
@@ -81,7 +89,7 @@ export class ListarCidades {
     //-------------------------------------------------------------------------------------
     public excluir(cidade: Cidade) {
         // Chama o backend para excluir a cidade selecionada
-        this.service.excluir(cidade).subscribe((retorno) => {
+        this.service.excluir(cidade).subscribe(() => {
             this.messageService.add({ severity: 'success', summary: 'Info', detail: `Cidade '${cidade.nome}' excluída com sucesso!` });
 
             // Atualiza a lista de cidades
