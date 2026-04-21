@@ -15,6 +15,8 @@ import { ProjetoService } from '@service/projeto-service';
 })
 export class CadastrarCidade {
 
+    public visivel: boolean = true;
+
     //-------------------------------------------------------
     // Parâmetro de entrada para o componente
     //-------------------------------------------------------
@@ -34,8 +36,12 @@ export class CadastrarCidade {
     /** Método chamado ao clicar no botao 'salvar' */
     //-------------------------------------------------------------------------------------
     public salvar(): void {
-        this.service.salvar(this.cidade).subscribe(() => {
-            this.eventoFechaJanela.emit(true);
+        this.service.salvar(this.cidade).subscribe({
+            next: () => this.eventoFechaJanela.emit(true),
+            error: (erro) => {
+                console.error('Erro ao salvar cidade', erro);
+                alert('Nao foi possivel salvar a cidade. Verifique os dados informados e tente novamente.');
+            }
         });
     }
 
@@ -43,6 +49,7 @@ export class CadastrarCidade {
     /** Método chamado ao clicar no botao 'cancelar' */
     //-------------------------------------------------------------------------------------
     public cancelar(): void {
+        this.visivel = false;
         this.eventoFechaJanela.emit(false) ;
     }
 

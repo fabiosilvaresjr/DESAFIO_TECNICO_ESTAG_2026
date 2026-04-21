@@ -1,4 +1,4 @@
-    <p-dialog header="Cadastrar Cidade" [visible]="true" [modal]="true" [style]="{ width: '25rem' }">
+    <p-dialog header="Cadastrar Cidade" [(visible)]="visivel" [modal]="true" [closable]="true" (onHide)="cancelar()" [style]="{ width: '25rem' }">
 
         <div class="flex align-items-center gap-3 mb-3">
             <label for="nome" class="font-semibold w-6rem">Nome</label>
